@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JOptionPane;
+import java.util.Date;
 
 /**
  *
@@ -18,6 +19,7 @@ public class SegundoParcial extends javax.swing.JFrame {
 
     //objeto
     encuesta2 persona = new encuesta2();
+    Date tiempo = new Date();
     int[] full = new int[5];
     //documento...
     private static final String CSV_FILE_PATH = "segundoparcial.csv";
@@ -35,34 +37,6 @@ public class SegundoParcial extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); 
     }
-    /*
-    try {
-                File file = new File(CSV_FILE_PATH);
-
-                // Verificar si el archivo CSV ya existe
-                boolean existeArchivo = file.exists();
-                
-
-                // Crear un FileWriter en modo de adición (append)
-                FileWriter fileWriter = new FileWriter(file, true);
-                PrintWriter writer = new PrintWriter(fileWriter);
-
-                // Escribir el encabezado solo si el archivo no existe
-                if (!existeArchivo) {
-                    writer.println("Genero,Grado de estudio,Nom. Escuela,Estado Civil,Nacionalidad,Documento,Intereses, Email");
-                }
-
-                // Escribir la información en una nueva fila
-                writer.println(reg);
-
-                writer.close();
-
-                System.out.println("La información se ha agregado al archivo encuestas.cvs");
-
-            } 
-            catch (IOException e) {
-                System.out.println("Error al escribir en el archivo CSV: " + e.getMessage());
-            }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,9 +84,7 @@ public class SegundoParcial extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Examen Parcial #2");
         setBounds(new java.awt.Rectangle(0, 0, 600, 605));
-        setMaximumSize(new java.awt.Dimension(600, 605));
         setMinimumSize(new java.awt.Dimension(600, 605));
-        setPreferredSize(new java.awt.Dimension(600, 605));
 
         lblGenero.setText("Genero");
 
@@ -162,12 +134,22 @@ public class SegundoParcial extends javax.swing.JFrame {
         jcp_java.setText("JAVA");
 
         jcp_otro.setText("Otro");
+        jcp_otro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcp_otroActionPerformed(evt);
+            }
+        });
 
         jci_frances.setText("Frances");
 
         jci_ingles.setText("Inglés");
 
         jci_otro.setText("Otro");
+        jci_otro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jci_otroActionPerformed(evt);
+            }
+        });
 
         jci_aleman.setText("Aleman");
 
@@ -177,7 +159,6 @@ public class SegundoParcial extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_lenguajesp);
 
         jButton1.setText("Registrar");
-        jButton1.setBounds(new java.awt.Rectangle(-32364, -32275, 90, 30));
         jButton1.setMaximumSize(new java.awt.Dimension(90, 30));
         jButton1.setMinimumSize(new java.awt.Dimension(90, 30));
         jButton1.setPreferredSize(new java.awt.Dimension(90, 30));
@@ -243,33 +224,27 @@ public class SegundoParcial extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(118, 118, 118))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcp_cmas)
                                     .addComponent(jcp_java)
-                                    .addComponent(jcp_c))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcp_c)
                                     .addComponent(jcp_php)
                                     .addComponent(jcp_otro))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(319, 319, 319)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jci_ingles)
-                            .addComponent(jci_aleman)
-                            .addComponent(jci_otro)
-                            .addComponent(jci_frances))
-                        .addGap(127, 127, 127))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(118, 118, 118))))
+                                .addGap(319, 319, 319)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jci_ingles)
+                                    .addComponent(jci_aleman)
+                                    .addComponent(jci_otro)
+                                    .addComponent(jci_frances))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,6 +338,7 @@ public class SegundoParcial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna opción de genero.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else{
+            System.out.println("Se mando genero: " + opcionGenero);
             persona.setGenero(opcionGenero);
             full[0] = 1;
         }
@@ -391,6 +367,7 @@ public class SegundoParcial extends javax.swing.JFrame {
         }
         else{
             //mandamos la opcion al objeto...
+            System.out.println("Se envio estado civil: " + opcionCivil);
             persona.setEstadoCivil(opcionCivil);
             full[1] = 1;
         }
@@ -411,7 +388,8 @@ public class SegundoParcial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna opción de nacionalidad.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else{
-            persona.setNacionalidad((nacionalidad));
+            System.out.println("Se envio nacionalidad: " + nacionalidad);
+            persona.setNacionalidad(nacionalidad);
             full[2] = 1;
         }
         //finalizamos con nacionalidad 
@@ -429,7 +407,7 @@ public class SegundoParcial extends javax.swing.JFrame {
         isSelectedP[3] = jcp_php.isSelected();
         //En este for checaremos cuales son true y cuales false, dependiendo de la posicion... 
         if(jcp_otro.isSelected()){
-            txt_lenguajesp.setEnabled(true);
+            txt_lenguajesp.setEnabled(false);
             String opcionesP = null; 
             opcionesP = txt_lenguajesp.getText();
             if(opcionesP == null){
@@ -437,6 +415,7 @@ public class SegundoParcial extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No se ha ingresado nada.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
+                System.out.println("Opcion lenguaje: " + opcionesP);
                 persona.setLenguajesP(opcionesP);
                 full[3] = 1;
             }
@@ -456,15 +435,17 @@ public class SegundoParcial extends javax.swing.JFrame {
                 }
             }
             if(allChecks == null){
-                full[4] = 0;
+                full[3] = 0;
                 JOptionPane.showMessageDialog(null, "Debe seleccionar por lo menos una opción.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
                 //mandamos la info al campo correspondiente en el objeto... 
+                System.out.println("Info de lenguajes: " + allChecks);
                 persona.setLenguajesP(allChecks);
-                full[4] = 1;
+                full[3] = 1;
             }
         }
+        
         
         //iniciamos con el de idiomas... 
         //Aqui empezamos con los check boxes de lenguajes de programacion...
@@ -477,17 +458,17 @@ public class SegundoParcial extends javax.swing.JFrame {
         // Verificar si la casilla de verificación 3 está seleccionada
         isSelectedI[2] = jci_aleman.isSelected();
         if(jci_otro.isSelected()){
-            txt_lenguajesp.setText("");
-            txt_lenguajesp.setEnabled(true);
+            txt_lenguajesp.setEnabled(false);
             String opcionesI = null; 
             opcionesI = txt_lenguajesp.getText();
             if(opcionesI == null){
-                full[5] = 0;
+                full[4] = 0;
                 JOptionPane.showMessageDialog(null, "No se ha ingresado nada.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
+                System.out.println("Opcion de idiomas: " + opcionesI);
                 persona.setIdiomas(opcionesI);
-                full[5] = 1;
+                full[4] = 1;
             }
         }
         else if(!jci_otro.isSelected()){
@@ -505,23 +486,23 @@ public class SegundoParcial extends javax.swing.JFrame {
                 }
             }
             if(allChecksi == null){
-                full[5] = 0;
+                full[4] = 0;
                 JOptionPane.showMessageDialog(null, "Debe seleccionar por lo menos una opción.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
+                System.out.println("Info de idiomas: " + allChecksi);
                 //mandamos la info al campo correspondiente en el objeto... 
-                persona.setLenguajesP(allChecksi);
-                full[5] = 1;
+                persona.setIdiomas(allChecksi);
+                full[4] = 1;
             }
         }
-        
          /*hay que validar que la información de todos los campos ya fue recolectada y que ningun String es null...*/
         boolean esValido = validarArrayDeUnos(full);
         
         if(esValido){
             //persona.setFecha("14/06/2023");
             //Aquí se estan imprimiendo en la terminal todas las opciones que se guardaron...
-            String reg = persona.getGenero() + " , " + persona.getEstadoCivil() + " , " + persona.getNacionalidad() + " , " + persona.getLenguajesP() + 
+            String reg = tiempo + ", " + persona.getGenero() + " , " + persona.getEstadoCivil() + " , " + persona.getNacionalidad() + " , " + persona.getLenguajesP() + 
                     " , " + persona.getIdiomas();
             System.out.println("Datos: " + reg);
             try {
@@ -537,7 +518,7 @@ public class SegundoParcial extends javax.swing.JFrame {
 
                 // Escribir el encabezado solo si el archivo no existe
                 if (!existeArchivo) {
-                    writer.println("Genero,Estado civil,Nacionalidad,Lenguajes de programación,Idiomas");
+                    writer.println("Hora y fecha,Genero,Estado civil,Nacionalidad,Lenguajes de programación,Idiomas");
                 }
 
                 // Escribir la información en una nueva fila
@@ -572,6 +553,28 @@ public class SegundoParcial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se puede guardar hasta tener todos los datos recopilados.", "Advertencia", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jcp_otroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcp_otroActionPerformed
+        if(jcp_otro.isSelected()){
+            System.out.println("Opcion de otro lenguaje");
+            txt_lenguajesp.setEnabled(true);
+            txt_lenguajesp.setText("");
+        }
+        else if(!jcp_otro.isSelected()){
+            txt_lenguajesp.setEnabled(false);
+        }
+    }//GEN-LAST:event_jcp_otroActionPerformed
+
+    private void jci_otroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jci_otroActionPerformed
+        if(jci_otro.isSelected()){
+            System.out.println("Opcion de otro lenguaje");
+            txt_lenguajesp.setEnabled(true);
+            txt_lenguajesp.setText("");
+        }
+        else if(!jcp_otro.isSelected()){
+            txt_lenguajesp.setEnabled(false);
+        }
+    }//GEN-LAST:event_jci_otroActionPerformed
 
     /**
      * @param args the command line arguments

@@ -7,10 +7,13 @@ package TercerParcial;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import metodosUnicos.MetodosUnicos;
+import metodosUnicos.Ordenamientos;
 
 /**
  *
@@ -19,7 +22,10 @@ import javax.swing.table.DefaultTableModel;
 public class Unicos extends javax.swing.JFrame {
 
     JFileChooser jfile = new JFileChooser(); //esta instanciado...
+    int opcFile;
     File archivo; //declarado sin instanciar...
+    String[] forAwhile = new String[1221];
+    String type;
     public Unicos() {
         initComponents();
         setLocationRelativeTo(null);
@@ -105,22 +111,47 @@ public class Unicos extends javax.swing.JFrame {
 
         jm_e1a.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.META_DOWN_MASK));
         jm_e1a.setText("E1a");
+        jm_e1a.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_e1aActionPerformed(evt);
+            }
+        });
         M_estructuras.add(jm_e1a);
 
         jm_e1b.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.META_DOWN_MASK));
         jm_e1b.setText("E1b");
+        jm_e1b.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_e1bActionPerformed(evt);
+            }
+        });
         M_estructuras.add(jm_e1b);
 
         jm_e1c.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.META_DOWN_MASK));
         jm_e1c.setText("E1c");
+        jm_e1c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_e1cActionPerformed(evt);
+            }
+        });
         M_estructuras.add(jm_e1c);
 
         jm_e2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.META_DOWN_MASK));
         jm_e2.setText("E2");
+        jm_e2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_e2ActionPerformed(evt);
+            }
+        });
         M_estructuras.add(jm_e2);
 
         jm_e3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.META_DOWN_MASK));
         jm_e3.setText("E3");
+        jm_e3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_e3ActionPerformed(evt);
+            }
+        });
         M_estructuras.add(jm_e3);
 
         barra_superior.add(M_estructuras);
@@ -129,14 +160,29 @@ public class Unicos extends javax.swing.JFrame {
 
         jm_burbuja.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jm_burbuja.setText("Burbuja");
+        jm_burbuja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_burbujaActionPerformed(evt);
+            }
+        });
         m_ordenamiento.add(jm_burbuja);
 
         jm_shell.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jm_shell.setText("Shell");
+        jm_shell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_shellActionPerformed(evt);
+            }
+        });
         m_ordenamiento.add(jm_shell);
 
         jm_seleccion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         jm_seleccion.setText("Selección");
+        jm_seleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_seleccionActionPerformed(evt);
+            }
+        });
         m_ordenamiento.add(jm_seleccion);
 
         barra_superior.add(m_ordenamiento);
@@ -179,6 +225,7 @@ public class Unicos extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jmSalirActionPerformed
 
+    //Este es el actionEvent del boton de carga...
     private void jmCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCargarActionPerformed
         javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
 
@@ -189,8 +236,8 @@ public class Unicos extends javax.swing.JFrame {
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("txt", "csv", "xls", "xlsx");
         //Se realiza la validacion del filtro... 
         jfile.setFileFilter(filtro);
-        int opcFile = jfile.showOpenDialog(this); 
-        
+        opcFile = jfile.showOpenDialog(this); 
+        type = "Carga";
         System.out.println("Estado del archivo: " + opcFile);
         if(opcFile != JFileChooser.CANCEL_OPTION){
             unicosTxt = jfile.getSelectedFile(); 
@@ -200,20 +247,22 @@ public class Unicos extends javax.swing.JFrame {
                         BufferedReader buffer = new BufferedReader(new FileReader(unicosTxt));
                         //lo lee una vez para que la variable no paresca estar null...
                         String cad = buffer.readLine(); 
-                        int contador = 1; 
+                        int contador = 0;
+                        int i = 1;
                         while(cad != null){
                             //cuando ya la leyo una vez se detecta que no es nula y despues
                             //sigue leyendo la siguiente y la siguiente linea hasta que
                             //llegar a la ultima linera, ya que lo siguiente seria que 
                             //automaticamente la cadena vuelve a ser null y para el while...
                             System.out.println(cad);
+                            forAwhile[contador] = cad;
                             
-                            String registro [] = new String []{"" + contador, cad};
+                            String registro [] = new String []{"" + i, cad}; 
                             modeloTablaUnicos.addRow(registro);
                             contador++;
                             cad = buffer.readLine();
                         }
-                        tblUnicos.setModel(modeloTablaUnicos);
+                        tblUnicos.setModel(modeloTablaUnicos); 
                     }
                     catch(Exception e){
                         
@@ -234,6 +283,274 @@ public class Unicos extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jmCargarActionPerformed
+
+    private void jm_e1aActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e1aActionPerformed
+        
+        if(jfile.getSelectedFile() != null){
+            type = "E1a";
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            //Variable tipo file...
+            File unicosTxt;
+            //le pasamos el archivo que tiene jfile...
+            unicosTxt = jfile.getSelectedFile();
+            //Se selecciono un archivo...
+            try{
+                //lo lee una vez para que la variable no paresca estar null...
+                String cad; 
+                String[] estructura = MetodosUnicos.E1a(unicosTxt); 
+                int contador = 0; 
+                int i = 1;
+                do{
+                    cad = estructura[contador];
+                    forAwhile[contador] = cad;
+
+                    String registro [] = new String []{"E1a: " + i, cad};
+                    modeloTablaUnicos.addRow(registro);
+                    contador++;
+                    i++;
+                }while(contador < estructura.length);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+            catch(IOException e){
+                System.out.println("Error");
+            }
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_e1aActionPerformed
+
+    private void jm_e1bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e1bActionPerformed
+        if(jfile.getSelectedFile() != null){
+            type = "E1b";
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            //Variable tipo file...
+            File unicosTxt;
+            //le pasamos el archivo que tiene jfile...
+            unicosTxt = jfile.getSelectedFile();
+            //Se selecciono un archivo...
+            try{
+                //lo lee una vez para que la variable no paresca estar null...
+                String cad; 
+                String[] estructura = MetodosUnicos.E1b(unicosTxt); 
+                int contador = 0; 
+                int i = 1;
+                do{
+                    cad = estructura[contador];
+                    forAwhile[contador] = cad;
+
+                    String registro [] = new String []{"E1b: " + i, cad};
+                    modeloTablaUnicos.addRow(registro);
+                    contador++;
+                    i++;
+                }while(contador < estructura.length);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+            catch(IOException e){
+                System.out.println("Error");
+            }
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_e1bActionPerformed
+
+    private void jm_e1cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e1cActionPerformed
+        if(jfile.getSelectedFile() != null){
+            type = "E1c";
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            //Variable tipo file...
+            File unicosTxt;
+            //le pasamos el archivo que tiene jfile...
+            unicosTxt = jfile.getSelectedFile();
+            //Se selecciono un archivo...
+            try{
+                //lo lee una vez para que la variable no paresca estar null...
+                String cad; 
+                String[] estructura = MetodosUnicos.E1c(unicosTxt); 
+                int contador = 0; 
+                int i = 1;
+                do{
+                    cad = estructura[contador];
+                    forAwhile[contador] = cad;
+
+                    String registro [] = new String []{"E1c: " + i, cad};
+                    modeloTablaUnicos.addRow(registro);
+                    contador++;
+                    i++;
+                }while(contador < estructura.length);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+            catch(IOException e){
+                System.out.println("Error");
+            }
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_e1cActionPerformed
+
+    private void jm_e2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e2ActionPerformed
+        if(jfile.getSelectedFile() != null){
+            type = "E2";
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            //Variable tipo file...
+            File unicosTxt;
+            //le pasamos el archivo que tiene jfile...
+            unicosTxt = jfile.getSelectedFile();
+            //Se selecciono un archivo...
+            try{
+                //lo lee una vez para que la variable no paresca estar null...
+                String cad; 
+                String[] estructura = MetodosUnicos.E2(unicosTxt); 
+                int contador = 0; 
+                int i = 1;
+                do{
+                    cad = estructura[contador];
+                    forAwhile[contador] = cad;
+
+                    String registro [] = new String []{"E2: " + i, cad};
+                    modeloTablaUnicos.addRow(registro);
+                    contador++;
+                    i++;
+                }while(contador < estructura.length);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+            catch(IOException e){
+                System.out.println("Error");
+            }
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_e2ActionPerformed
+
+    private void jm_e3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e3ActionPerformed
+        if(jfile.getSelectedFile() != null){
+            type = "E3";
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            //Variable tipo file...
+            File unicosTxt;
+            //le pasamos el archivo que tiene jfile...
+            unicosTxt = jfile.getSelectedFile();
+            //Se selecciono un archivo...
+            try{
+                //lo lee una vez para que la variable no paresca estar null...
+                String cad; 
+                String[] estructura = MetodosUnicos.E3(unicosTxt); 
+                int contador = 0; 
+                int i = 1;
+                do{
+                    cad = estructura[contador];
+                    forAwhile[contador] = cad;
+
+                    String registro [] = new String []{"E3: " + i, cad};
+                    modeloTablaUnicos.addRow(registro);
+                    contador++;
+                    i++;
+                }while(contador < estructura.length);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+            catch(IOException e){
+                System.out.println("Error");
+            }
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_e3ActionPerformed
+
+    private void jm_shellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_shellActionPerformed
+        //Primer hay que validar que haya algun archivo seleccionado...
+        if(jfile.getSelectedFile() != null){
+            
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            
+            //lo lee una vez para que la variable no paresca estar null...
+            String cad; 
+            String[] estructura = Ordenamientos.ordenamientoSehll(forAwhile);
+            int contador = 0; 
+            int i = 1; 
+            do{
+                cad = estructura[contador];
+
+                String registro [] = new String []{ type + " Sehll: " + i, cad}; 
+                modeloTablaUnicos.addRow(registro);
+                contador++;
+                i++;
+            }while(contador < estructura.length);
+            tblUnicos.setModel(modeloTablaUnicos);
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_shellActionPerformed
+
+    private void jm_burbujaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_burbujaActionPerformed
+        if(jfile.getSelectedFile() != null){
+            
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            
+            //lo lee una vez para que la variable no paresca estar null...
+            String cad; 
+            String[] estructura = Ordenamientos.ordenamientoBurbuja(forAwhile);
+            int contador = 0; 
+            int i = 1; 
+            do{
+                cad = estructura[contador];
+
+                String registro [] = new String []{ type + " Burbuja: " + i, cad}; 
+                modeloTablaUnicos.addRow(registro);
+                contador++;
+                i++;
+            }while(contador < estructura.length);
+            tblUnicos.setModel(modeloTablaUnicos);
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_burbujaActionPerformed
+
+    private void jm_seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_seleccionActionPerformed
+        if(jfile.getSelectedFile() != null){
+            
+            //Aqui tenemos nuestro set Model... 
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            
+            //lo lee una vez para que la variable no paresca estar null...
+            String cad; 
+            String[] estructura = Ordenamientos.ordenamientoSeleccion(forAwhile);
+            int contador = 0; 
+            int i = 1; 
+            do{
+                cad = estructura[contador];
+
+                String registro [] = new String []{ type + " Selección: " + i, cad}; 
+                modeloTablaUnicos.addRow(registro);
+                contador++;
+                i++;
+            }while(contador < estructura.length);
+            tblUnicos.setModel(modeloTablaUnicos);
+        }else{
+            //No se selecciono nada...
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_seleccionActionPerformed
 
     /**
      * @param args the command line arguments

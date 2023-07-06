@@ -55,6 +55,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="E1a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_e1aActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_e1b">
               <Properties>
@@ -63,6 +66,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="E1b"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_e1bActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_e1c">
               <Properties>
@@ -71,6 +77,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="E1c"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_e1cActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_e2">
               <Properties>
@@ -79,6 +88,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="E2"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_e2ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_e3">
               <Properties>
@@ -87,6 +99,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="E3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_e3ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -102,6 +117,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Burbuja"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_burbujaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_shell">
               <Properties>
@@ -110,6 +128,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Shell"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_shellActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_seleccion">
               <Properties>
@@ -118,6 +139,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Selecci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_seleccionActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

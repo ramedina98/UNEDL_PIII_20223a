@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import metodosUnicos.MetodosUnicos;
 import metodosUnicos.Ordenamientos;
+import metodosUnicos.busquedas; 
 
 /**
  *
@@ -25,7 +26,11 @@ public class Unicos extends javax.swing.JFrame {
     int opcFile;
     File archivo; //declarado sin instanciar...
     String[] forAwhile = new String[1221];
+    String[] OrdenDefault = new String[1221]; //Aqui en esta array tenemos ya ordenado los datos de la primera caraga...
     String type;
+    /*esta variable se encargara de optener un valor booleano el cual sera usado para validar si se ha ordenado los datos o no
+    ya que la busqueda booleana no puede servir sin tener datos ordenados...*/
+    boolean orden = false; //por defecto es false porque no se ha usado...
     public Unicos() {
         initComponents();
         setLocationRelativeTo(null);
@@ -38,6 +43,7 @@ public class Unicos extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUnicos = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         barra_superior = new javax.swing.JMenuBar();
         m_archivo = new javax.swing.JMenu();
         jmCargar = new javax.swing.JMenuItem();
@@ -47,7 +53,6 @@ public class Unicos extends javax.swing.JFrame {
         jm_e1b = new javax.swing.JMenuItem();
         jm_e1c = new javax.swing.JMenuItem();
         jm_e2 = new javax.swing.JMenuItem();
-        jm_e3 = new javax.swing.JMenuItem();
         m_ordenamiento = new javax.swing.JMenu();
         jm_burbuja = new javax.swing.JMenuItem();
         jm_shell = new javax.swing.JMenuItem();
@@ -62,10 +67,9 @@ public class Unicos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Porcesar");
-        setBounds(new java.awt.Rectangle(0, 0, 600, 600));
-        setMaximumSize(new java.awt.Dimension(600, 600));
-        setMinimumSize(new java.awt.Dimension(600, 600));
-        setPreferredSize(new java.awt.Dimension(600, 600));
+        setBounds(new java.awt.Rectangle(0, 0, 750, 750));
+        setMaximumSize(new java.awt.Dimension(750, 750));
+        setMinimumSize(new java.awt.Dimension(750, 750));
 
         tblUnicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,7 +87,22 @@ public class Unicos extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblUnicos.setBounds(new java.awt.Rectangle(0, 0, 695, 600));
+        tblUnicos.setMaximumSize(new java.awt.Dimension(695, 600));
+        tblUnicos.setPreferredSize(new java.awt.Dimension(695, 600));
         jScrollPane1.setViewportView(tblUnicos);
+
+        jButton1.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jButton1.setText("Back");
+        jButton1.setBounds(new java.awt.Rectangle(0, 0, 100, 30));
+        jButton1.setMaximumSize(new java.awt.Dimension(100, 30));
+        jButton1.setMinimumSize(new java.awt.Dimension(100, 30));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         m_archivo.setText("Archivo");
 
@@ -145,15 +164,6 @@ public class Unicos extends javax.swing.JFrame {
         });
         M_estructuras.add(jm_e2);
 
-        jm_e3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.META_DOWN_MASK));
-        jm_e3.setText("E3");
-        jm_e3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jm_e3ActionPerformed(evt);
-            }
-        });
-        M_estructuras.add(jm_e3);
-
         barra_superior.add(M_estructuras);
 
         m_ordenamiento.setText("Ordenamiento");
@@ -191,10 +201,20 @@ public class Unicos extends javax.swing.JFrame {
 
         jm_binario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         jm_binario.setText("Binaria");
+        jm_binario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_binarioActionPerformed(evt);
+            }
+        });
         m_busqueda.add(jm_binario);
 
         jm_secuencial.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         jm_secuencial.setText("Secuencial");
+        jm_secuencial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_secuencialActionPerformed(evt);
+            }
+        });
         m_busqueda.add(jm_secuencial);
 
         barra_superior.add(m_busqueda);
@@ -206,16 +226,22 @@ public class Unicos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(335, 335, 335))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -228,7 +254,10 @@ public class Unicos extends javax.swing.JFrame {
     //Este es el actionEvent del boton de carga...
     private void jmCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCargarActionPerformed
         javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
-
+        
+        //si cargamos un valor por primeras vez o cuantas veces sea, el valor de la variable orden tiene que ser false ya que se 
+        //carga todo sin estar ordenado...
+        orden = false; 
         //se cargara un archivo...
         //variable de tipo archivo... 
         File unicosTxt; 
@@ -255,14 +284,17 @@ public class Unicos extends javax.swing.JFrame {
                             //llegar a la ultima linera, ya que lo siguiente seria que 
                             //automaticamente la cadena vuelve a ser null y para el while...
                             System.out.println(cad);
+                            OrdenDefault[contador] = cad; 
                             forAwhile[contador] = cad;
                             
                             String registro [] = new String []{"" + i, cad}; 
                             modeloTablaUnicos.addRow(registro);
                             contador++;
+                            i++;
                             cad = buffer.readLine();
                         }
                         tblUnicos.setModel(modeloTablaUnicos); 
+                        OrdenDefault = Ordenamientos.ordenamientoBurbuja(OrdenDefault); 
                     }
                     catch(Exception e){
                         
@@ -433,47 +465,11 @@ public class Unicos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jm_e2ActionPerformed
 
-    private void jm_e3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_e3ActionPerformed
-        if(jfile.getSelectedFile() != null){
-            type = "E3";
-            //Aqui tenemos nuestro set Model... 
-            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
-            //Variable tipo file...
-            File unicosTxt;
-            //le pasamos el archivo que tiene jfile...
-            unicosTxt = jfile.getSelectedFile();
-            //Se selecciono un archivo...
-            try{
-                //lo lee una vez para que la variable no paresca estar null...
-                String cad; 
-                String[] estructura = MetodosUnicos.E3(unicosTxt); 
-                int contador = 0; 
-                int i = 1;
-                do{
-                    cad = estructura[contador];
-                    forAwhile[contador] = cad;
-
-                    String registro [] = new String []{"E3: " + i, cad};
-                    modeloTablaUnicos.addRow(registro);
-                    contador++;
-                    i++;
-                }while(contador < estructura.length);
-                tblUnicos.setModel(modeloTablaUnicos);
-            }
-            catch(IOException e){
-                System.out.println("Error");
-            }
-        }else{
-            //No se selecciono nada...
-            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo seleccionado anteriormente", 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jm_e3ActionPerformed
-
     private void jm_shellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_shellActionPerformed
         //Primer hay que validar que haya algun archivo seleccionado...
         if(jfile.getSelectedFile() != null){
-            
+            //validamos que si se ha ordenado...
+            orden = true; 
             //Aqui tenemos nuestro set Model... 
             javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
             
@@ -500,7 +496,8 @@ public class Unicos extends javax.swing.JFrame {
 
     private void jm_burbujaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_burbujaActionPerformed
         if(jfile.getSelectedFile() != null){
-            
+            //validamos que si se ha ordenado...
+            orden = true; 
             //Aqui tenemos nuestro set Model... 
             javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
             
@@ -527,7 +524,8 @@ public class Unicos extends javax.swing.JFrame {
 
     private void jm_seleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_seleccionActionPerformed
         if(jfile.getSelectedFile() != null){
-            
+            //validamos que si se ha ordenado...
+            orden = true; 
             //Aqui tenemos nuestro set Model... 
             javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
             
@@ -551,6 +549,208 @@ public class Unicos extends javax.swing.JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jm_seleccionActionPerformed
+
+    private void jm_binarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_binarioActionPerformed
+        
+        //primero hay que validar que los datos si esten validados...
+        if(orden == true && jfile.getSelectedFile() != null){
+            
+            String cadena = null; //tomamos la informacion aqui y despues la imprimiremos en algo por definir aun...
+            String input = null;
+            
+            
+            input = JOptionPane.showInputDialog(null, "Ingrese el CRN");
+
+            cadena = busquedas.binarySearch(OrdenDefault, input);
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            int e = 1; 
+            if(cadena != "no"){
+                String registro [] = new String []{ type + " Selección: " + e, cadena}; 
+                modeloTablaUnicos.addRow(registro);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }else{
+                cadena = "No se encontro el dato requerido."; 
+                String registro [] = new String []{"Busqueda binaria: " + e, cadena}; 
+                modeloTablaUnicos.addRow(registro);
+                tblUnicos.setModel(modeloTablaUnicos);
+            }
+        } 
+        else if(jfile.getSelectedFile() == null){
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo cargado", 
+                        "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(orden == false && jfile.getSelectedFile() != null){
+            JOptionPane.showMessageDialog(rootPane, "Los datos aun no estan ordenados.", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jm_binarioActionPerformed
+
+    private void jm_secuencialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_secuencialActionPerformed
+        //Aqui haremos la busqueda secuencial... (la cual es mucho mejor para buscar por cualquier campo, menos codigo...)
+        if(orden == true || jfile.getSelectedFile() != null){
+            Object[] opciones = {"CRN", "CLAVE", "MATERIA", "APELLIDOS", "NOMBRE"}; 
+            int seleccion = JOptionPane.showOptionDialog(null, "Por que campo se hara la busqueda", "Campo de busqueda",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
+            String campo = (String) opciones[seleccion];
+            int index[]; //tomamos la informacion aqui y despues la imprimiremos en algo por definir aun...
+            String input = null;
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            int e = 1; 
+            int y = 0; 
+            int contador = 0; 
+            String CADENA = null;
+            
+            switch(seleccion){
+                case 0:
+                    input = JOptionPane.showInputDialog(null, "Ingrese el CRN");
+                    System.out.println("Opción CRN. Valor ingresado: " + input);
+                    
+                    index = busquedas.secuencialSearch(OrdenDefault, input, seleccion);
+                    e = 1; 
+                    contador = 0; 
+                    CADENA = null; 
+                    y = 0; //contador de ceros...
+                    if(index[0] == 0){
+                        contador = index[1]; 
+                        CADENA  = forAwhile[contador];
+                        String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                        modeloTablaUnicos.addRow(registro);
+                        e++; 
+
+                        tblUnicos.setModel(modeloTablaUnicos);
+                    }else {
+                        CADENA  = "No se encontro el dato requerido.";
+                        String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                        modeloTablaUnicos.addRow(registro);
+                        e++; 
+
+                        tblUnicos.setModel(modeloTablaUnicos);
+                    }
+                    
+                break;
+                
+                case 1: 
+                    //CLAVE...
+                    input = JOptionPane.showInputDialog(null, "Ingrese el CLAVE");
+                    System.out.println("Opción CLAVE. Valor ingresado: " + input);
+                    
+                    index = busquedas.secuencialSearch(OrdenDefault, input, seleccion);
+                    e = 1; 
+                    contador = 0; 
+                    CADENA = null; 
+                    y = 0; //contador de ceros...
+                    for(int i = 0; i < index.length; i++){
+                        if(index[i] != 0){
+                            contador = index[i]; 
+                            CADENA  = forAwhile[contador];
+                            String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                            modeloTablaUnicos.addRow(registro);
+                            e++; 
+                        }
+                    }
+
+                    tblUnicos.setModel(modeloTablaUnicos);
+                break;
+                
+                case 2: 
+                    input = JOptionPane.showInputDialog(null, "Ingrese el MATERIA");
+                    System.out.println("Opción MATERIA. Valor ingresado: " + input);
+                    
+                    index = busquedas.secuencialSearch(OrdenDefault, input, seleccion);
+                    e = 1; 
+                    contador = 0; 
+                    CADENA = null; 
+                    y = 0; //contador de ceros...
+                    for(int i = 0; i < index.length; i++){
+                        if(index[i] != 0){
+                            contador = index[i]; 
+                            CADENA  = forAwhile[contador];
+                            String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                            modeloTablaUnicos.addRow(registro);
+                            e++; 
+                        }
+                    }
+
+                    tblUnicos.setModel(modeloTablaUnicos);
+                break;
+                
+                case 3: 
+                    input = JOptionPane.showInputDialog(null, "Ingrese el APELLIDOS");
+                    System.out.println("Opción APELLIDOS. Valor ingresado: " + input);
+                    
+                    for(int i = 0; i < OrdenDefault.length; i++){
+                        System.out.println("Datos: " + OrdenDefault[i]);
+                    }
+                    
+                    index = busquedas.secuencialSearch(OrdenDefault, input, seleccion);
+                    e = 1; 
+                    contador = 0; 
+                    CADENA = null; 
+                    y = 0; //contador de ceros...
+                    for(int i = 0; i < index.length; i++){
+                        if(index[i] != 0){
+                            contador = index[i]; 
+                            CADENA  = forAwhile[contador];
+                            String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                            modeloTablaUnicos.addRow(registro);
+                            e++; 
+                        }
+                    }
+
+                    tblUnicos.setModel(modeloTablaUnicos);
+                    
+                break;
+                
+                case 4: 
+                    
+                    input = JOptionPane.showInputDialog(null, "Ingrese el NOMBRE");
+                    System.out.println("Opción NOMBRE. Valor ingresado: " + input);
+                    
+                    index = busquedas.secuencialSearch(OrdenDefault, input, seleccion);
+                    e = 1; 
+                    contador = 0; 
+                    CADENA = null; 
+                    y = 0; //contador de ceros...
+                    for(int i = 0; i < index.length; i++){
+                        if(index[i] != 0){
+                            contador = index[i]; 
+                            CADENA  = forAwhile[contador];
+                            String registro [] = new String []{"Busqueda secuencial: " + e, CADENA}; 
+                            modeloTablaUnicos.addRow(registro);
+                            e++; 
+                        }
+                    }
+
+                    tblUnicos.setModel(modeloTablaUnicos);
+                    
+                break;
+            }
+            
+        }else if(jfile.getSelectedFile() == null){
+            JOptionPane.showMessageDialog(rootPane, "No hay ningun archivo cargado", 
+                        "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jm_secuencialActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jfile.getSelectedFile() != null){
+            //cargamos el archivo con su estructura y acomodo otra vez...
+            javax.swing.table.DefaultTableModel modeloTablaUnicos= new DefaultTableModel(new String [] {"Numero", "Registro"}, 0);
+            int contador = 0; 
+            int i = 1; 
+            String cad; 
+            do{
+                cad = forAwhile[contador];
+
+                String registro [] = new String []{ type + i, cad}; 
+                modeloTablaUnicos.addRow(registro);
+                contador++;
+                i++;
+            }while(contador < forAwhile.length);
+            tblUnicos.setModel(modeloTablaUnicos);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,6 +796,7 @@ public class Unicos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu M_estructuras;
     private javax.swing.JMenuBar barra_superior;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -607,7 +808,6 @@ public class Unicos extends javax.swing.JFrame {
     private javax.swing.JMenuItem jm_e1b;
     private javax.swing.JMenuItem jm_e1c;
     private javax.swing.JMenuItem jm_e2;
-    private javax.swing.JMenuItem jm_e3;
     private javax.swing.JMenuItem jm_secuencial;
     private javax.swing.JMenuItem jm_seleccion;
     private javax.swing.JMenuItem jm_shell;

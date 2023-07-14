@@ -10,27 +10,23 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ricardo medina
+ * @author ricardomedina
  */
 public class Tablas extends javax.swing.JFrame {
     RegistroAlumno ra = new RegistroAlumno();
-    DefaultTableModel modelo;
-    DefaultTableModel dtm = new DefaultTableModel();
+    //DefaultTableModel modelo;
+    //DefaultTableModel dtm = new DefaultTableModel();
     
 
     
     public Tablas() {
         initComponents();
         
-        String[] titulo = new String[]{"Id Alumno:","Nombre","Apellido Paterno   ","Apellido Materno    ","Edad", "Licenciatura"};
-        dtm.setColumnIdentifiers(titulo);
-        tblDatos.setModel(dtm);
-        
     }
 
-    void agregar (String id, String nombre, String ApeP, String ApeM, int edad, String Lic) {
-        System.out.println(id+"\t"+nombre+"\t"+ApeP+"\t"+ApeM+"\t\t"+edad+"\t"+Lic+"");
-        dtm.addRow(new Object[]{id,nombre, ApeP, ApeM,edad,Lic});
+    public static void agregar (Object[] datosFila){
+        DefaultTableModel modelo = (DefaultTableModel) tblDatos.getModel();
+        modelo.addRow(datosFila);
     }
 
     @SuppressWarnings("unchecked")
@@ -53,10 +49,7 @@ public class Tablas extends javax.swing.JFrame {
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -214,13 +207,9 @@ public class Tablas extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnSalir;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tblDatos;
+    private static javax.swing.JTable tblDatos;
     // End of variables declaration//GEN-END:variables
 
-    void insertarDatosTabla(String id, String nombre, String ApeP, String ApeM, int edad, String Lic) {
-         agregar(id,nombre,ApeP,ApeM, edad,Lic);
-         
-    }
 
     /*void insertarDatosTabla(String id,String nombre, String ApeP, String ApeM, int edad, String Lic) {
      String [] info = new String [5];

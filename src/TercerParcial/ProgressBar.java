@@ -35,7 +35,6 @@ public class ProgressBar extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         btnArchivo = new javax.swing.JMenu();
         btnSalir = new javax.swing.JMenuItem();
-        btnReload = new javax.swing.JMenuItem();
         btnEditar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,7 +65,7 @@ public class ProgressBar extends javax.swing.JFrame {
 
         btnArchivo.setText("Archivo");
 
-        btnSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        btnSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.META_DOWN_MASK));
         btnSalir.setText("Out");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,15 +73,6 @@ public class ProgressBar extends javax.swing.JFrame {
             }
         });
         btnArchivo.add(btnSalir);
-
-        btnReload.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        btnReload.setText("Reload");
-        btnReload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReloadActionPerformed(evt);
-            }
-        });
-        btnArchivo.add(btnReload);
 
         jMenuBar1.add(btnArchivo);
 
@@ -100,10 +90,6 @@ public class ProgressBar extends javax.swing.JFrame {
         
     
     }//GEN-LAST:event_btnSalirActionPerformed
-
-    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnReloadActionPerformed
 
     private void sldControlBarraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldControlBarraStateChanged
         int progreso = sldControlBarra.getValue();
@@ -151,7 +137,6 @@ public class ProgressBar extends javax.swing.JFrame {
     private javax.swing.JProgressBar BarraProgreso;
     private javax.swing.JMenu btnArchivo;
     private javax.swing.JMenu btnEditar;
-    private javax.swing.JMenuItem btnReload;
     private javax.swing.JMenuItem btnSalir;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel lblPorcentaje;
